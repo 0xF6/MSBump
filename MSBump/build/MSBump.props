@@ -2,7 +2,7 @@
 <Project TreatAsLocalProperty="TaskFolder">
     
   <PropertyGroup>
-    <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
+    <TaskFolder>netstandard2.0</TaskFolder>
     <MSBumpPath>$(MSBuildThisFileDirectory)..\tasks\$(TaskFolder)</MSBumpPath>
   </PropertyGroup>
 

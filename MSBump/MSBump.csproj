@@ -14,12 +14,14 @@
     <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
     <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
     <DevelopmentDependency>True</DevelopmentDependency>
-    <PackageId>MSBump</PackageId>
-    <Authors>BalassaMarton</Authors>
+    <PackageId>Ivy.Versioning.Auto</PackageId>
+    <Authors>BalassaMarton, Yuuki Wesp</Authors>
     <Company />
     <Description>MSBuild task that bumps the version of a Visual Studio 2017 project before build and pack.</Description>
     <PackageProjectUrl>https://github.com/BalassaMarton/MSBump</PackageProjectUrl>
     <PackageTags>msbuild bump package version</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
