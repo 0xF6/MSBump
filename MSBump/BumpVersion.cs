@@ -1,19 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NuGet.Versioning;
-
-namespace MSBump
+﻿namespace MSBump
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+    using System.Xml;
+    using System.Xml.Linq;
+    using System.Xml.XPath;
+    using Microsoft.Build.Framework;
+    using Microsoft.Build.Utilities;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using NuGet.Versioning;
+
     public class BumpVersion : Task
     {
         public override bool Execute()
@@ -23,22 +23,22 @@ namespace MSBump
             {
                 var proj = XDocument.Load(ProjectPath, LoadOptions.PreserveWhitespace);
 
-                Settings settings = LoadSettingsFromFile(Path.ChangeExtension(ProjectPath, ".msbump")) ??
-                                    LoadSettingsFromFile(Path.Combine(Path.GetDirectoryName(ProjectPath), ".msbump")) ??
-                                    new Settings
-                                    {
-                                        BumpMajor = BumpMajor,
-                                        BumpMinor = BumpMinor,
-                                        BumpPatch = BumpPatch,
-                                        BumpRevision = BumpRevision,
-                                        BumpLabel = BumpLabel,
-                                        ResetMajor = ResetMajor,
-                                        ResetMinor = ResetMinor,
-                                        ResetPatch = ResetPatch,
-                                        ResetRevision = ResetRevision,
-                                        ResetLabel = ResetLabel,
-                                        LabelDigits = LabelDigits
-                                    };
+                var settings = LoadSettingsFromFile(Path.ChangeExtension(ProjectPath, ".msbump")) ??
+                               LoadSettingsFromFile(Path.Combine(Path.GetDirectoryName(ProjectPath), ".msbump")) ??
+                               new Settings
+                               {
+                                   BumpMajor = BumpMajor,
+                                   BumpMinor = BumpMinor,
+                                   BumpPatch = BumpPatch,
+                                   BumpRevision = BumpRevision,
+                                   BumpLabel = BumpLabel,
+                                   ResetMajor = ResetMajor,
+                                   ResetMinor = ResetMinor,
+                                   ResetPatch = ResetPatch,
+                                   ResetRevision = ResetRevision,
+                                   ResetLabel = ResetLabel,
+                                   LabelDigits = LabelDigits
+                               };
 
                 Log.LogMessage(MessageImportance.Low, $"MSBump settings = {JObject.FromObject(settings)}");
 
@@ -113,14 +113,15 @@ namespace MSBump
             if (!string.IsNullOrEmpty(settings.ResetLabel))
             {
                 var regex = new Regex($"^{Regex.Escape(settings.ResetLabel)}(\\d*)$");
-                foreach (var label in labels)
+                var collection = 
+                    from label in labels
+                    let match = regex.Match(label)
+                    where match.Success
+                    select label;
+                foreach (var label in collection)
                 {
-                    var match = regex.Match(label);
-                    if (match.Success)
-                    {
-                        labels.Remove(label);
-                        break;
-                    }
+                    labels.Remove(label);
+                    break;
                 }
             }
 
@@ -133,13 +134,11 @@ namespace MSBump
                 foreach (var label in labels)
                 {
                     var match = regex.Match(label);
-                    if (match.Success)
-                    {
-                        if (!string.IsNullOrEmpty(match.Groups[1].Value))
-                            value = int.Parse(match.Groups[1].Value);
-                        labels.Remove(label);
-                        break;
-                    }
+                    if (!match.Success) continue;
+                    if (!string.IsNullOrEmpty(match.Groups[1].Value))
+                        value = int.Parse(match.Groups[1].Value);
+                    labels.Remove(label);
+                    break;
                 }
 
                 value++;
@@ -149,16 +148,14 @@ namespace MSBump
             var newVersion = new NuGetVersion(major, minor, patch, revision, labels, oldVersion.Metadata);
 
             // Modify the project file and set output properties
-            if (newVersion != oldVersion)
-            {
-                var newVersionStr = newVersion.ToString();
-                Log.LogMessage(MessageImportance.High, $"Changing {tagName} to {newVersionStr}...");
-                element.Value = newVersionStr;
-                GetRequiredPropertyInfo("New" + tagName).SetValue(this, newVersionStr);
-                return true;
-            }
+            if (newVersion == oldVersion) 
+                return false;
+            var newVersionStr = newVersion.ToString();
+            Log.LogMessage(MessageImportance.High, $"Changing {tagName} to {newVersionStr}...");
+            element.Value = newVersionStr;
+            GetRequiredPropertyInfo("New" + tagName).SetValue(this, newVersionStr);
+            return true;
 
-            return false;
         }
 
         private PropertyInfo GetRequiredPropertyInfo(string propertyName)
