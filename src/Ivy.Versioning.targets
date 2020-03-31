@@ -4,7 +4,7 @@
         <MSBumpPath Condition="$(MSBumpPath) == ''">$(MSBuildThisFileDirectory)</MSBumpPath>
     </PropertyGroup>
 
-    <UsingTask AssemblyFile="$(MSBumpPath)\MSBump.dll" TaskName="MSBump.BumpVersion" />
+    <UsingTask AssemblyFile="$(MSBumpPath)\Ivy.Versioning.dll" TaskName="MSBump.BumpVersion" />
 
     <PropertyGroup>
         <MSBumpLockFilePath>$(MSBuildProjectDirectory)\$(MSBuildProjectName).msbump.lock</MSBumpLockFilePath>

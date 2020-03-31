@@ -3,10 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <VersionPrefix>3.0.0</VersionPrefix>
-    <VersionSuffix Condition="$(Configuration) == 'Release'"></VersionSuffix>
-    <VersionSuffix Condition="$(Configuration) == 'Debug'">pre$([System.DateTime]::Now.ToString('yyyyMMddHHmm'))</VersionSuffix>
-    
+    <Version>3.0.0-beta</Version>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
@@ -31,26 +28,14 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Framework" Version="15.3.409" />
-    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.3.409" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.3.409" />
-    <PackageReference Include="NuGet.Versioning" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XDocument" Version="4.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Update="@(PackageReference)" PrivateAssets="All" />
-    <PackageReference Update="Microsoft.Build.Framework" Version="16.5.0" />
-    <PackageReference Update="Microsoft.Build.Tasks.Core" Version="16.5.0" />
-    <PackageReference Update="Microsoft.Build.Utilities.Core" Version="16.5.0" />
-    <PackageReference Update="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Update="NuGet.Versioning" Version="5.5.0" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.5.0" />
+    <PackageReference Include="NuGet.Versioning" Version="5.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
-    
-    <!--The include needs to happen after output has been copied to build output folder
-    but before NuGet generates a nuspec.-->
-    
     <ItemGroup>
       <_PackageFiles Include="bin\$(Configuration)\**\*.dll">
         <PackagePath>tasks\%(RecursiveDir)</PackagePath>
@@ -59,5 +44,4 @@
       </_PackageFiles>
     </ItemGroup>
   </Target>
-
 </Project>
