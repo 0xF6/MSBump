@@ -20,6 +20,9 @@
     <PackageTags>msbuild bump package version</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Balassa Marton (C) 2017-2019, Yuuki Wesp (C) 2020</Copyright>
+	<PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
