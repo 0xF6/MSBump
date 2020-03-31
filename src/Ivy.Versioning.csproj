@@ -19,6 +19,7 @@
     <Company />
     <Description>MSBuild task that bumps the version of a Visual Studio 2019 project before build and pack.</Description>
     <PackageProjectUrl>https://github.com/0xF6/Ivy.Versioning</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/0xF6/Ivy.Versioning</RepositoryUrl>
     <PackageTags>msbuild bump package version</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
