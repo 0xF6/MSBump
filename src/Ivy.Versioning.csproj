@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <VersionPrefix>2.3.3</VersionPrefix>
+    <VersionPrefix>3.0.0</VersionPrefix>
     <VersionSuffix Condition="$(Configuration) == 'Release'"></VersionSuffix>
     <VersionSuffix Condition="$(Configuration) == 'Debug'">pre$([System.DateTime]::Now.ToString('yyyyMMddHHmm'))</VersionSuffix>
     
@@ -14,11 +14,11 @@
     <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
     <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
     <DevelopmentDependency>True</DevelopmentDependency>
-    <PackageId>Ivy.Versioning.Auto</PackageId>
+    <PackageId>Ivy.Versioning</PackageId>
     <Authors>BalassaMarton, Yuuki Wesp</Authors>
     <Company />
-    <Description>MSBuild task that bumps the version of a Visual Studio 2017 project before build and pack.</Description>
-    <PackageProjectUrl>https://github.com/BalassaMarton/MSBump</PackageProjectUrl>
+    <Description>MSBuild task that bumps the version of a Visual Studio 2019 project before build and pack.</Description>
+    <PackageProjectUrl>https://github.com/0xF6/Ivy.Versioning</PackageProjectUrl>
     <PackageTags>msbuild bump package version</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

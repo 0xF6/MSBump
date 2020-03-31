@@ -2,15 +2,15 @@
 <package xmlns="https://raw.githubusercontent.com/NuGet/NuGet.Client/dev/src/NuGet.Core/NuGet.Packaging/compiler/resources/nuspec.xsd">
     <metadata>
         <!-- Required elements-->
-        <id>MSBump</id>
-        <version>2.3.3</version>
-        <title>MSBump</title>
-        <summary>MSBuild task that bumps the version of a Visual Studio 2017 project.</summary>
+        <id>Ivy.Versioning</id>
+        <version>3.0.0</version>
+        <title>Ivy.Versioning</title>
+        <summary>MSBuild task that bumps the version of a Visual Studio 2019 project.</summary>
         <description>
-          MSBuild task that bumps the version of a Visual Studio 2017 project before build and pack.
+          MSBuild task that bumps the version of a Visual Studio 2019 project before build and pack.
         </description>
-        <authors>BalassaMarton</authors>
-        <projectUrl>https://github.com/BalassaMarton/MSBump</projectUrl>
+        <authors>BalassaMarton, Yuuki Wesp</authors>
+        <projectUrl>https://github.com/0xF6/Ivy.Versioning</projectUrl>
         <tags>msbuild bump package version</tags>
         <developmentDependency>true</developmentDependency>
     </metadata>
