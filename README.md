@@ -1,23 +1,46 @@
-# MSBump
-MSBump is a MSBuild 15 task that bumps the version of a Visual Studio 2017 project.
+<!-- Logo -->
+<p align="center">
+  <a href="#">
+    <img height="128" width="128" src="https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png">
+  </a>
+</p>
+
+<!-- Name -->
+<h1 align="center">
+  ✨ Ivy.Versioning ✨
+</h1>
+<!-- desc -->
+<h4 align="center">
+  Ivy.Versioning is a MSBuild 16 task that bumps the version of a Visual Studio 2019 project.
+</h4>
+<p align="center">
+  <a href="https://www.nuget.org/packages/Ivy.Versioning/">
+    <img alt="Nuget" src="https://img.shields.io/nuget/v/Ivy.Versioning.svg?color=%23884499">
+  </a>
+  <a href="https://t.me/ivysola">
+    <img alt="Telegram" src="https://img.shields.io/badge/Ask%20Me-Anything-1f425f.svg">
+  </a>
+</p>
+<p align="center">
+  <a href="#">
+    <img src="https://forthebadge.com/images/badges/made-with-c-sharp.svg">
+    <img src="https://forthebadge.com/images/badges/designed-in-ms-paint.svg">
+    <img src="https://forthebadge.com/images/badges/ages-18.svg">
+    <img src="https://ForTheBadge.com/images/badges/winter-is-coming.svg">
+    <img src="https://forthebadge.com/images/badges/gluten-free.svg">
+  </a>
+</p>
+
 Currently only tested on `.csproj` files.
-
-## Purpose
-
-I'm working on a lot of packages that are referencing each other, but they are in different solutions.
-To make my project references maintainable, I use a local NuGet feed, and reference my projects as NuGet packages.
-However, in this setup, I'd have to manually change the version every time I change something in a package
-that is referenced by other solutions, to make NuGet pull the updates. This task will increment any given
-part of the project version.
 
 ## Usage
 
-1. Add the `MSBump` NuGet package to your project.
+1. Add the `Ivy.Versioning` NuGet package to your project.
 2. Edit the project file. Make sure the file has a `<Version>` property.
-3. Create a `.msbump` settings file (see below) or add the corresponding properties to the project (see next section).
+3. Create a `.ivy` settings file (see below) or add the corresponding properties to the project (see next section).
 
 Warning: Until [this](https://github.com/NuGet/Home/issues/4125) NuGet issue is fixed, you should add `PrivateAssets="All"` to the `PackageReference` declaration,
-otherwise your package will list `MSBump` as a dependency.
+otherwise your package will list `Ivy.Versioning` as a dependency.
 
 Warning: NuGet client before version 4.6 had an issue ([this](https://github.com/NuGet/Home/issues/4790)) that resulted in incorrect
 dependency version numbers for P2P references in the generated NuGet packages. If you're experiencing this problem, try updating your NuGet client.
@@ -34,8 +57,8 @@ After this, all your P2P references in the generated packages should have the co
 
 ## Settings
 
-MSBump settings can be declared in a separate `.msbump` file.
-This file must be placed next to the project file, and must have the same name as the project file, but with the `.msbump` extension. Alternatively, it can be named simply as `.msbump`.
+MSBump settings can be declared in a separate `.ivy` file.
+This file must be placed next to the project file, and must have the same name as the project file, but with the `.ivy` extension. Alternatively, it can be named simply as `.ivy`.
 The file itself is a JSON file that contains the properties for the task object. 
 When per-configuration settings are desireable, the settings file should be structured like this:
 ```js
@@ -52,7 +75,7 @@ When per-configuration settings are desireable, the settings file should be stru
 }
 ```
 
-Note that when a `.msbump` file is present, all other properties declared in `.targets` files are ignored for the current project. This is helpful when we use repository-wide MSBump configuration, but want to override this behavior for some projects. 
+Note that when a `.ivy` file is present, all other properties declared in `.targets` files are ignored for the current project. This is helpful when we use repository-wide MSBump configuration, but want to override this behavior for some projects. 
 
 The settings file should contain any of the following properties:
 
@@ -135,22 +158,13 @@ Example - the previous example, using project properties
 ```
 
 
-## Standalone version
-
-Use this method if adding a NuGet package is not an option
-
-1. Locate your `MSBuild` folder. It is usually `Program Files\Microsoft Visual Studio\2017\(your edition)\MSBuild`.
-2. Extract the contents of the zip file to this folder (you should end up with an `MSBump` folder under `MSBuild`, with `.dll` and `.targets` files.
-3. Edit your project file OR `Directory.Build.targets` file, if you want to enforce these build settings to a solution or entire repository (see [the MSBuild documentation](https://docs.microsoft.com/en-us/visualstudio/msbuild/what-s-new-in-msbuild-15-0))
-4. Import `MSBump.targets`
-
-```xml
-  <Import Project="$(MSBuildExtensionsPath)\MSBump\MSBump.targets" />
-```
-
-5. Create the settings the same way as for the NuGet version.
-
 ## Version history
+
+
+### 3.0.0 (2020-04-01)
+
+* Upgrade all deps to lates
+* Deploy new nuget package
 
 ### 2.3.2 (2017-12-13)
 
