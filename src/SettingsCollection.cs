@@ -1,4 +1,4 @@
-﻿namespace MSBump
+﻿namespace Ivy.Versioning
 {
     using System.Collections.Generic;
 

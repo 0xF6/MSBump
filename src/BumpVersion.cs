@@ -1,4 +1,4 @@
-﻿namespace MSBump
+﻿namespace Ivy.Versioning
 {
     using System;
     using System.IO;
@@ -18,13 +18,13 @@
     {
         public override bool Execute()
         {
-            Log.LogMessage(MessageImportance.Low, "MSBump task started");
+            Log.LogMessage(MessageImportance.Low, "Ivy Version task started");
             try
             {
                 var proj = XDocument.Load(ProjectPath, LoadOptions.PreserveWhitespace);
 
-                var settings = LoadSettingsFromFile(Path.ChangeExtension(ProjectPath, ".msbump")) ??
-                               LoadSettingsFromFile(Path.Combine(Path.GetDirectoryName(ProjectPath), ".msbump")) ??
+                var settings = LoadSettingsFromFile(Path.ChangeExtension(ProjectPath, ".ivy")) ??
+                               LoadSettingsFromFile(Path.Combine(Path.GetDirectoryName(ProjectPath), ".ivy")) ??
                                new Settings
                                {
                                    BumpMajor = BumpMajor,
@@ -40,7 +40,7 @@
                                    LabelDigits = LabelDigits
                                };
 
-                Log.LogMessage(MessageImportance.Low, $"MSBump settings = {JObject.FromObject(settings)}");
+                Log.LogMessage(MessageImportance.Low, $"Ivy Version settings = {JObject.FromObject(settings)}");
 
                 if (TryBump(proj, "Version", settings))
                 {
@@ -66,7 +66,7 @@
             if (File.Exists(settingsFilePath))
             {
                 Settings settings = null;
-                Log.LogMessage(MessageImportance.Low, $"Loading MSBump settings from file \"{settingsFilePath}\"");
+                Log.LogMessage(MessageImportance.Low, $"Loading Ivy Version settings from file \"{settingsFilePath}\"");
                 var settingsCollection = JsonSerializer.Create()
                     .Deserialize<SettingsCollection>(new JsonTextReader(File.OpenText(settingsFilePath)));
                 if (!string.IsNullOrEmpty(Configuration))
@@ -74,7 +74,7 @@
                 return settings ?? settingsCollection;
             }
 
-            Log.LogMessage(MessageImportance.Low, $"MSBump settings file \"{settingsFilePath}\" not found");
+            Log.LogMessage(MessageImportance.Low, $"Ivy Version settings file \"{settingsFilePath}\" not found");
             return null;
         }
 

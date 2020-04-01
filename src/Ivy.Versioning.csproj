@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.0-beta</Version>
+    <Version>3.0.0-beta.9</Version>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
@@ -13,7 +13,6 @@
     <DevelopmentDependency>True</DevelopmentDependency>
     <PackageId>Ivy.Versioning</PackageId>
     <Authors>BalassaMarton, Yuuki Wesp</Authors>
-    <Company />
     <Description>MSBuild task that bumps the version of a Visual Studio 2019 project before build and pack.</Description>
     <PackageProjectUrl>https://github.com/0xF6/Ivy.Versioning</PackageProjectUrl>
     <RepositoryUrl>https://github.com/0xF6/Ivy.Versioning</RepositoryUrl>
@@ -21,8 +20,8 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Balassa Marton (C) 2017-2019, Yuuki Wesp (C) 2020</Copyright>
-	<PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

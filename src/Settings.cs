@@ -1,4 +1,4 @@
-﻿namespace MSBump
+﻿namespace Ivy.Versioning
 {
     public class Settings
     {
