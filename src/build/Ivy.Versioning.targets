@@ -7,21 +7,21 @@
       Configuration="$(Configuration)"
       ProjectPath="$(MSBuildProjectFullPath)"
 
-      BumpMajor="$(BumpMajor)" 
-      BumpMinor="$(BumpMinor)" 
-      BumpPatch="$(BumpPatch)" 
-      BumpRevision="$(BumpRevision)" 
+      BumpMajor="$(BumpMajor)"
+      BumpMinor="$(BumpMinor)"
+      BumpPatch="$(BumpPatch)"
+      BumpRevision="$(BumpRevision)"
       BumpLabel="$(BumpLabel)"
-      ResetMajor="$(BumpResetMajor)" 
-      ResetMinor="$(BumpResetMinor)" 
-      ResetPatch="$(BumpResetPatch)" 
-      ResetRevision="$(BumpResetRevision)" 
+      ResetMajor="$(BumpResetMajor)"
+      ResetMinor="$(BumpResetMinor)"
+      ResetPatch="$(BumpResetPatch)"
+      ResetRevision="$(BumpResetRevision)"
       ResetLabel="$(BumpResetLabel)"
       LabelDigits="$(BumpLabelDigits)">
 
       <Output TaskParameter="NewVersion" PropertyName="MSBumpNewVersion" />
     </BumpVersion>
-    
+
     <PropertyGroup>
       <Version Condition="$(MSBumpNewVersion) != ''">$(MSBumpNewVersion)</Version>
       <PackageVersion Condition="$(MSBumpNewVersion) != ''">$(MSBumpNewVersion)</PackageVersion>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project TreatAsLocalProperty="TaskFolder">
-    
+
   <PropertyGroup>
-    <TaskFolder>netstandard2.0</TaskFolder>
+    <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
+    <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">netstandard2.0</TaskFolder>
     <MSBumpPath>$(MSBuildThisFileDirectory)..\tasks\$(TaskFolder)</MSBumpPath>
   </PropertyGroup>
 
-  <UsingTask AssemblyFile="$(MSBumpPath)\MSBump.dll" TaskName="MSBump.BumpVersion" />
+  <UsingTask AssemblyFile="$(MSBumpPath)\Ivy.Versioning.dll" TaskName="Ivy.Versioning.BumpVersion" />
 
   <PropertyGroup>
     <MSBumpLockFilePath>$(MSBuildProjectDirectory)\$(MSBuildProjectName).msbump.lock</MSBumpLockFilePath>
   </PropertyGroup>
-  
+
 </Project>
