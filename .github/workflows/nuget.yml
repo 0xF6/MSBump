@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Build solution and generate NuGet package
-        run: dotnet publish -c Release -o out /p:NuspecFile=Ivy.Versioning.nuspec /p:Configuration=Release 
+        run: dotnet publish -c Release -o out
 
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
@@ -25,3 +25,7 @@ jobs:
 
       - name: Push generated package to GitHub registry
         run: nuget push .\**\*.nupkg -Source "GPR" -SkipDuplicate
+        
+      - name: Push generated package to NuGet registry
+        run: nuget push .\**\*.nupkg -ApiKey ${{ secrets.NUGET_KEY }} -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+        continue-on-error: true
