@@ -2,12 +2,11 @@
 <Project TreatAsLocalProperty="TaskFolder">
 
   <PropertyGroup>
-    <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
-    <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">net48</TaskFolder>
-    <IvyRoot>$(MSBuildThisFileDirectory)$(TaskFolder)</IvyRoot>
+    <IvyAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net472\Ivy.Versioning.dll</IvyAssemblyFile>
+    <IvyAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netstandard2.0\Ivy.Versioning.dll</IvyAssemblyFile>
   </PropertyGroup>
 
-  <UsingTask AssemblyFile="$(IvyRoot)\Ivy.Versioning.dll" TaskName="Ivy.Versioning.BumpVersion" />
+  <UsingTask AssemblyFile="$(IvyAssemblyFile)" TaskName="Ivy.Versioning.BumpVersion" />
 
   <PropertyGroup>
     <MSBumpLockFilePath>$(MSBuildProjectDirectory)\$(MSBuildProjectName).msbump.lock</MSBumpLockFilePath>

@@ -10,6 +10,8 @@
     using System.Xml.XPath;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
+    using NuGet.Versioning;
+
     //using Newtonsoft.Json;
     //using Newtonsoft.Json.Linq;
 
