@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.1-beta.1</Version>
+    <Version>3.0.1-beta.2</Version>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
@@ -34,13 +34,17 @@
     <Content Include="build\*" PackagePath="build\" />
     <Content Include="buildMultiTargeting\*" PackagePath="buildMultiTargeting\" />
   </ItemGroup>
+
+
   
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Framework" Version="16.5.0" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.5.0" />
-    <PackageReference Include="NuGet.Versioning" Version="5.5.0" />
-  </ItemGroup>
+    <PackageReference Include="NuGet.Versioning" Version="5.5.0" PrivateAssets="All">
+      <Publish>true</Publish>
+    </PackageReference>
+ </ItemGroup>
 
   <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
     <ItemGroup>
