@@ -4,7 +4,7 @@
   <PropertyGroup>
     <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
     <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">net48</TaskFolder>
-    <IvyRoot>$(MSBuildThisFileDirectory)..\tasks\$(TaskFolder)</IvyRoot>
+    <IvyRoot>$(MSBuildThisFileDirectory)$(TaskFolder)</IvyRoot>
   </PropertyGroup>
 
   <UsingTask AssemblyFile="$(IvyRoot)\Ivy.Versioning.dll" TaskName="Ivy.Versioning.BumpVersion" />
