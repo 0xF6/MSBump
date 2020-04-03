@@ -10,8 +10,8 @@
     using System.Xml.XPath;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+    //using Newtonsoft.Json;
+    //using Newtonsoft.Json.Linq;
     using NuGet.Versioning;
 
     public class BumpVersion : Task
@@ -40,7 +40,7 @@
                                    LabelDigits = LabelDigits
                                };
 
-                Log.LogMessage(MessageImportance.Low, $"Ivy Version settings = {JObject.FromObject(settings)}");
+                //Log.LogMessage(MessageImportance.Low, $"Ivy Version settings = {JObject.FromObject(settings)}");
 
                 if (TryBump(proj, "Version", settings))
                 {
@@ -63,6 +63,7 @@
 
         private Settings LoadSettingsFromFile(string settingsFilePath)
         {
+            /* TODO: Use System.Text.Json
             if (File.Exists(settingsFilePath))
             {
                 Settings settings = null;
@@ -73,6 +74,7 @@
                     settingsCollection.Configurations?.TryGetValue(Configuration, out settings);
                 return settings ?? settingsCollection;
             }
+            */
 
             Log.LogMessage(MessageImportance.Low, $"Ivy Version settings file \"{settingsFilePath}\" not found");
             return null;
