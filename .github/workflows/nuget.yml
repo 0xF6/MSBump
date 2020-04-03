@@ -21,10 +21,7 @@ jobs:
 
       - name: Build solution
         run: dotnet build -c Release
-        
-      - name: Generate NuGet package
-        run: dotnet pack
-        
+    
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
 
