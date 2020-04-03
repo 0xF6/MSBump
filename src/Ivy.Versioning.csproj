@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.0.2</Version>
+    <Version>3.0.1-beta.1</Version>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -24,6 +24,12 @@
     <PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
   </PropertyGroup>
 
+
+  <ItemGroup>
+    <!-- ensure nuspec doesn't contain any package references as we bundle their assemblies in our package -->
+    <PackageReference Update="@(PackageReference)" PrivateAssets="All" />
+  </ItemGroup>
+
   <ItemGroup>
     <Content Include="build\*" PackagePath="build\" />
     <Content Include="buildMultiTargeting\*" PackagePath="buildMultiTargeting\" />
@@ -34,7 +40,6 @@
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.5.0" />
     <PackageReference Include="NuGet.Versioning" Version="5.5.0" />
-    <PackageReference Update="@(PackageReference)" PrivateAssets="All" />
   </ItemGroup>
 
   <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">

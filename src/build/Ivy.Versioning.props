@@ -3,11 +3,11 @@
 
   <PropertyGroup>
     <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netstandard2.0</TaskFolder>
-    <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">netstandard2.0</TaskFolder>
-    <MSBumpPath>$(MSBuildThisFileDirectory)..\tasks\$(TaskFolder)</MSBumpPath>
+    <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">net48</TaskFolder>
+    <IvyRoot>$(MSBuildThisFileDirectory)..\tasks\$(TaskFolder)</IvyRoot>
   </PropertyGroup>
 
-  <UsingTask AssemblyFile="$(MSBumpPath)\Ivy.Versioning.dll" TaskName="Ivy.Versioning.BumpVersion" />
+  <UsingTask AssemblyFile="$(IvyRoot)\Ivy.Versioning.dll" TaskName="Ivy.Versioning.BumpVersion" />
 
   <PropertyGroup>
     <MSBumpLockFilePath>$(MSBuildProjectDirectory)\$(MSBuildProjectName).msbump.lock</MSBumpLockFilePath>
