@@ -14,9 +14,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
-      - name: Build solution and generate NuGet package
-        run: dotnet publish -c Release -o out
-
+      - name: Build solution
+        run: dotnet build -c Release
+        
+      - name: Generate NuGet package
+        run: dotnet pack
+        
       - name: Install NuGet client
         uses: warrenbuckley/Setup-Nuget@v1
 
