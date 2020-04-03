@@ -12,7 +12,6 @@
     using Microsoft.Build.Utilities;
     //using Newtonsoft.Json;
     //using Newtonsoft.Json.Linq;
-    using NuGet.Versioning;
 
     public class BumpVersion : Task
     {
