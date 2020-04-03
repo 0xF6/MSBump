@@ -2,9 +2,11 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.1-beta.2</Version>
+    <Version>3.0.1-beta.3</Version>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DependsOnNETStandard>true</DependsOnNETStandard>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <PropertyGroup>
