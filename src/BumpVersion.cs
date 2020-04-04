@@ -1,30 +1,20 @@
 ﻿namespace Ivy.Versioning
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
-    using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.XPath;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
     using NuGet.Versioning;
-    public class BumpVersion : Task
+    public partial class BumpVersion : Task
     {
         public override bool Execute()
         {
-            /*
-            Debugger.Launch();
-            if (!Debugger.IsAttached)
-            {
-                Thread.Sleep(100);
-                Log.LogWarning("Waiting debugger...");
-            }
-            */
             Log.LogMessage(MessageImportance.Low, "Ivy Version task started");
             try
             {
@@ -56,10 +46,20 @@
         }
         private bool TryBump(XDocument proj, string tagName)
         {
+            if (proj is null)
+            {
+                Log.LogError($"Failed load project file.");
+                return false;
+            }
+            if (proj.Root is null)
+            {
+                Log.LogError($"Failed mount XML from project file.");
+                return false;
+            }
+
             var defaultNamespace = proj.Root.GetDefaultNamespace();
             var defaultNamespacePrefix = "ns";
             var xmlNamespaceManager = new XmlNamespaceManager(new NameTable());
-            Log.LogMessage(MessageImportance.High, $"ns: {defaultNamespace.NamespaceName}");
 
             xmlNamespaceManager.AddNamespace(defaultNamespacePrefix, defaultNamespace.NamespaceName);
 
@@ -69,7 +69,8 @@
             if (element == null)
                 return false;
             var oldVersion = new NuGetVersion(element.Value);
-            Log.LogMessage(MessageImportance.Low, $"Old {tagName} is {element.Value}");
+
+            Log.LogMessage(MessageImportance.Low, $"Currency version: {oldVersion}");
 
             int GetNextValue(int oldValue, bool bump, bool reset)
             {
@@ -129,43 +130,13 @@
             var newVersionStr = newVersion.ToString();
             Log.LogMessage(MessageImportance.High, $"Changing {tagName} to {newVersionStr}...");
             element.Value = newVersionStr;
-            GetRequiredPropertyInfo("New" + tagName).SetValue(this, newVersionStr);
+            GetRequiredPropertyInfo($"New{tagName}").SetValue(this, newVersionStr);
             return true;
 
         }
 
-        private PropertyInfo GetRequiredPropertyInfo(string propertyName)
-        {
-            return GetType().GetProperty(propertyName) ??
-                   throw new Exception($"Property {propertyName} is missing from type {GetType().Name}");
-        }
-
-        [Required] public string ProjectPath { get; set; }
-
-        public string Configuration { get; set; }
-
-        public bool BumpMajor { get; set; }
-
-        public bool BumpMinor { get; set; }
-
-        public bool BumpPatch { get; set; }
-
-        public bool BumpRevision { get; set; }
-
-        public string BumpLabel { get; set; }
-
-        public bool ResetMajor { get; set; }
-
-        public bool ResetMinor { get; set; }
-
-        public bool ResetPatch { get; set; }
-
-        public bool ResetRevision { get; set; }
-
-        public string ResetLabel { get; set; }
-
-        public int LabelDigits { get; set; } = 6;
-
-        [Output] public string NewVersion { get; set; }
+        private PropertyInfo GetRequiredPropertyInfo(string propertyName) =>
+            GetType().GetProperty(propertyName) ??
+            throw new Exception($"Property {propertyName} is missing from type {GetType().Name}");
     }
 }
