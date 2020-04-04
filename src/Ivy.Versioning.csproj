@@ -1,18 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>3.0.1-beta.14</Version>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <DevelopmentDependency>true</DevelopmentDependency>
-    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
-    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_GetTfmSpecificFilesToPackage</TargetsForTfmSpecificContentInPackage>
-  </PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>3.0.1-beta.52s</Version>
+   </PropertyGroup>
 
   <PropertyGroup>
-    <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
-    <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-    <DevelopmentDependency>True</DevelopmentDependency>
     <PackageId>Ivy.Versioning</PackageId>
     <Authors>BalassaMarton, Yuuki Wesp</Authors>
     <Description>MSBuild task that bumps the version of a Visual Studio 2019 project before build and pack.</Description>
@@ -26,22 +18,35 @@
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="build\*" PackagePath="build\" />
-    <Content Include="buildMultiTargeting\*" PackagePath="buildMultiTargeting\" />
-  </ItemGroup>
-
-  <Target Name="_GetTfmSpecificFilesToPackage" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <ItemGroup>
-      <TfmSpecificPackageFile Include="$(TargetDir)NuGet.Versioning.dll" PackagePath="tools/$(TargetFramework)/NuGet.Versioning.dll" />
-    </ItemGroup>
-  </Target>
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="16.5.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Versioning" Version="5.5.0" />
- </ItemGroup>
+    <PackageReference Include="NuGet.Versioning" Version="5.5.1" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" PrivateAssets="All" />
+  </ItemGroup>
+
+
+  <!-- For loading deps when run MSBuild task  -->
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+    <DevelopmentDependency>True</DevelopmentDependency>
+    <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="build\*" PackagePath="build\" />
+  </ItemGroup>
+  <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
+    <ItemGroup>
+      <_PackageFiles Include="bin\$(Configuration)\**\*.dll">
+        <PackagePath>tools\%(RecursiveDir)</PackagePath>
+        <Visible>false</Visible>
+        <BuildAction>Content</BuildAction>
+      </_PackageFiles>
+    </ItemGroup>
+  </Target>
+  <!-- end -->
 </Project>
