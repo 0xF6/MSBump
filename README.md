@@ -42,6 +42,8 @@ Currently only tested on `.csproj` files.
 Warning: Until [this](https://github.com/NuGet/Home/issues/4125) NuGet issue is fixed, you should add `PrivateAssets="All"` to the `PackageReference` declaration,
 otherwise your package will list `Ivy.Versioning` as a dependency.
 
+Warning: When using .NET Core 3.1.**103** there may be problems when building and publishing via .NET CLI.
+
 Warning: NuGet client before version 4.6 had an issue ([this](https://github.com/NuGet/Home/issues/4790)) that resulted in incorrect
 dependency version numbers for P2P references in the generated NuGet packages. If you're experiencing this problem, try updating your NuGet client.
 If updating the NuGet client is not an option, follow these steps:
