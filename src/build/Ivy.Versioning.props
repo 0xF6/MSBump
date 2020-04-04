@@ -2,8 +2,7 @@
 <Project TreatAsLocalProperty="TaskFolder">
 
   <PropertyGroup>
-    <IvyAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net472\Ivy.Versioning.dll</IvyAssemblyFile>
-    <IvyAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netstandard2.0\Ivy.Versioning.dll</IvyAssemblyFile>
+    <IvyAssemblyFile>$(MSBuildThisFileDirectory)..\tools\netstandard2.0\Ivy.Versioning.dll</IvyAssemblyFile>
   </PropertyGroup>
 
   <UsingTask AssemblyFile="$(IvyAssemblyFile)" TaskName="Ivy.Versioning.BumpVersion" />
