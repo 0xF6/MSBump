@@ -1,55 +1,48 @@
 ﻿namespace Ivy.Versioning
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.XPath;
     using Microsoft.Build.Framework;
     using Microsoft.Build.Utilities;
     using NuGet.Versioning;
-
-    //using Newtonsoft.Json;
-    //using Newtonsoft.Json.Linq;
-
     public class BumpVersion : Task
     {
         public override bool Execute()
         {
+            /*
+            Debugger.Launch();
+            if (!Debugger.IsAttached)
+            {
+                Thread.Sleep(100);
+                Log.LogWarning("Waiting debugger...");
+            }
+            */
             Log.LogMessage(MessageImportance.Low, "Ivy Version task started");
             try
             {
                 var proj = XDocument.Load(ProjectPath, LoadOptions.PreserveWhitespace);
 
-                var settings = LoadSettingsFromFile(Path.ChangeExtension(ProjectPath, ".ivy")) ??
-                               LoadSettingsFromFile(Path.Combine(Path.GetDirectoryName(ProjectPath), ".ivy")) ??
-                               new Settings
-                               {
-                                   BumpMajor = BumpMajor,
-                                   BumpMinor = BumpMinor,
-                                   BumpPatch = BumpPatch,
-                                   BumpRevision = BumpRevision,
-                                   BumpLabel = BumpLabel,
-                                   ResetMajor = ResetMajor,
-                                   ResetMinor = ResetMinor,
-                                   ResetPatch = ResetPatch,
-                                   ResetRevision = ResetRevision,
-                                   ResetLabel = ResetLabel,
-                                   LabelDigits = LabelDigits
-                               };
-
-                //Log.LogMessage(MessageImportance.Low, $"Ivy Version settings = {JObject.FromObject(settings)}");
-
-                if (TryBump(proj, "Version", settings))
+                if (TryBump(proj, "Version"))
                 {
                     Log.LogMessage(MessageImportance.Low, "Saving project file");
-                    using (var stream = File.Create(ProjectPath))
+                    var setting = new XmlWriterSettings
                     {
-                        stream.Flush();
-                        proj.Save(stream);
+                        OmitXmlDeclaration = true,
+                        Indent = true
+                    };
+                    using (var stream = File.Create(ProjectPath))
+                    using (var xml = XmlWriter.Create(stream, setting))
+                    {
+                        xml.Flush();
+                        proj.Save(xml);
                     }
                 }
             }
@@ -61,32 +54,12 @@
 
             return true;
         }
-
-        private Settings LoadSettingsFromFile(string settingsFilePath)
+        private bool TryBump(XDocument proj, string tagName)
         {
-            /* TODO: Use System.Text.Json
-            if (File.Exists(settingsFilePath))
-            {
-                Settings settings = null;
-                Log.LogMessage(MessageImportance.Low, $"Loading Ivy Version settings from file \"{settingsFilePath}\"");
-                var settingsCollection = JsonSerializer.Create()
-                    .Deserialize<SettingsCollection>(new JsonTextReader(File.OpenText(settingsFilePath)));
-                if (!string.IsNullOrEmpty(Configuration))
-                    settingsCollection.Configurations?.TryGetValue(Configuration, out settings);
-                return settings ?? settingsCollection;
-            }
-            */
-
-            Log.LogMessage(MessageImportance.Low, $"Ivy Version settings file \"{settingsFilePath}\" not found");
-            return null;
-        }
-
-        private bool TryBump(XDocument proj, string tagName, Settings settings)
-        {
-            // ReSharper disable once PossibleNullReferenceException
             var defaultNamespace = proj.Root.GetDefaultNamespace();
             var defaultNamespacePrefix = "ns";
             var xmlNamespaceManager = new XmlNamespaceManager(new NameTable());
+            Log.LogMessage(MessageImportance.High, $"ns: {defaultNamespace.NamespaceName}");
 
             xmlNamespaceManager.AddNamespace(defaultNamespacePrefix, defaultNamespace.NamespaceName);
 
@@ -107,15 +80,15 @@
                 return oldValue;
             }
 
-            var major = GetNextValue(oldVersion.Major, settings.BumpMajor, settings.ResetMajor);
-            var minor = GetNextValue(oldVersion.Minor, settings.BumpMinor, settings.ResetMinor);
-            var patch = GetNextValue(oldVersion.Patch, settings.BumpPatch, settings.ResetPatch);
-            var revision = GetNextValue(oldVersion.Revision, settings.BumpRevision, settings.ResetRevision);
+            var major = GetNextValue(oldVersion.Major, BumpMajor, ResetMajor);
+            var minor = GetNextValue(oldVersion.Minor, BumpMinor, ResetMinor);
+            var patch = GetNextValue(oldVersion.Patch, BumpPatch, ResetPatch);
+            var revision = GetNextValue(oldVersion.Revision, BumpRevision, ResetRevision);
 
             var labels = oldVersion.ReleaseLabels.ToList();
-            if (!string.IsNullOrEmpty(settings.ResetLabel))
+            if (!string.IsNullOrEmpty(ResetLabel))
             {
-                var regex = new Regex($"^{Regex.Escape(settings.ResetLabel)}(\\d*)$");
+                var regex = new Regex($"^{Regex.Escape(ResetLabel)}(\\d*)$");
                 var collection = 
                     from label in labels
                     let match = regex.Match(label)
@@ -130,9 +103,9 @@
 
             // Find and modify the release label selected with `BumpLabel`
             // If ResetLabel is true, remove only the specified label.
-            if (!string.IsNullOrEmpty(settings.BumpLabel) && settings.BumpLabel != settings.ResetLabel)
+            if (!string.IsNullOrEmpty(BumpLabel) && BumpLabel != ResetLabel)
             {
-                var regex = new Regex($"^{Regex.Escape(settings.BumpLabel)}(\\d*)$");
+                var regex = new Regex($"^{Regex.Escape(BumpLabel)}(\\d*)$");
                 var value = 0;
                 foreach (var label in labels)
                 {
@@ -145,7 +118,7 @@
                 }
 
                 value++;
-                labels.Add(settings.BumpLabel + value.ToString(new string('0', settings.LabelDigits)));
+                labels.Add(BumpLabel + value.ToString(new string('0', LabelDigits)));
             }
 
             var newVersion = new NuGetVersion(major, minor, patch, revision, labels, oldVersion.Metadata);
