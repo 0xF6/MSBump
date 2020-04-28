@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>3.1.0</Version>
+    <Version>3.1.0-beta.1</Version>
    </PropertyGroup>
 
   <PropertyGroup>
@@ -19,7 +19,6 @@
     <PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="16.5.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
