@@ -29,9 +29,7 @@
     <img src="https://ForTheBadge.com/images/badges/winter-is-coming.svg">
     <img src="https://forthebadge.com/images/badges/gluten-free.svg">
   </a>
-</p>
-
-Currently only tested on `.csproj` files.
+</p>s.
 
 ## Usage
 
@@ -80,6 +78,33 @@ Example - Increment the revision number on every Release build, add `dev` label 
 ```
 
 Reset properties are prioritized over Bump properties.
+
+## Troubleshooting		
+
+#### Problem	
+```cmd
+Ivy.Versioning.targets(6,5): error : Could not load file or assembly 'NuGet.Versioning, Version=5.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.
+```
+
+#### Solution		
+	
+Replace		
+```xml
+<PackageReference Include="Ivy.Versioning" Version="3.1.0"> 
+    <PrivateAssets>all</PrivateAssets> 
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets> 
+</PackageReference> 
+```		
+to		
+```xml
+  <ItemGroup Condition="$(Configuration) == 'Debug'"> 
+    <PackageReference Include="Ivy.Versioning" Version="3.1.0"> 
+      <PrivateAssets>all</PrivateAssets> 
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets> 
+    </PackageReference> 
+  </ItemGroup> 
+```
+
 
 ## Version history
 
