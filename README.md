@@ -29,7 +29,7 @@
     <img src="https://ForTheBadge.com/images/badges/winter-is-coming.svg">
     <img src="https://forthebadge.com/images/badges/gluten-free.svg">
   </a>
-</p>s.
+</p>
 
 ## Usage
 
