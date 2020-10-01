@@ -19,7 +19,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/0xF6/Ivy.Versioning/master/images/icon.png</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.5.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.7.0" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Versioning" Version="5.5.1" PrivateAssets="All" />
