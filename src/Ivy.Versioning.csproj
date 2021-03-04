@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="16.8.0" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Versioning" Version="5.5.1" PrivateAssets="All" />
+    <PackageReference Include="NuGet.Versioning" Version="5.9.0" PrivateAssets="All" />
   </ItemGroup>
 
 
